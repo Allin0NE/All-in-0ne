@@ -1,8 +1,39 @@
 [
-  {"id":"e1","name":"هاتف ذكي 6.5 بوصة","price":5999,"image":"","category":"إلكترونيات"},
-  {"id":"c1","name":"قميص رجالي قطن","price":350,"https://aff.ven-door.com/storage/products_image/lY28TSOSRpO7io7hXVNEMRKuIqKY9rMyb7h13aj4.jpg":"","category":"ملابس","subcategory":"رجالي"},
-  {"id":"c2","name":"فستان صيفي","price":620,"image":"","category":"ملابس","subcategory":"حريمي"},
-  {"id":"f1","name":"طقم ألعاب طاولة","price":299,"image":"","category":"منتجات ترفيهية"},
-  {"id":"h1","name":"كريم ترطيب","price":120,"image":"","category":"الصحة والجمال"},
-  {"id":"m1","name":"مفرش سرير قطني","price":350,"image":"","category":"المنزل"}
+  {
+    "id": "e101",
+    "name": "هاتف ذكي 6.5 بوصة",
+    "price": 5999,
+    "category": "إلكترونيات",
+    "description": "شاشة كبيرة وبطارية قوية"
+  },
+  {
+    "id": "c201",
+    "name": "تيشيرت رجالي",
+    "price": 199,
+    "category": "ملابس",
+    "subcategory": "رجالي",
+    "description": "تيشيرت قطن 100% مريح"
+  },
+  {
+    "id": "c301",
+    "name": "فستان كاجوال",
+    "price": 349,
+    "category": "ملابس",
+    "subcategory": "حريمي",
+    "description": "مناسب للخروج اليومي"
+  },
+  {
+    "id": "h101",
+    "name": "كريم ترطيب",
+    "price": 120,
+    "category": "الصحة والجمال",
+    "description": "ترطيب عميق للبشرة"
+  },
+  {
+    "id": "m101",
+    "name": "مفرش سرير قطني",
+    "price": 350,
+    "category": "المنزل",
+    "description": "خامة مريحة وجودة عالية"
+  }
 ]
