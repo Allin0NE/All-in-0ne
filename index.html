@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>متجري</title>
+  <meta name="description" content="متجر للتسوق الإلكتروني.">
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="images/logo.png" alt="الشعار" class="logo" onerror="this.style.display='none'">
+        <a href="./" class="store-name" id="storeName">متجري</a>
+      </div>
+      <div class="search-wrap">
+        <input id="searchInput" type="search" placeholder="ابحث عن منتج..." />
+      </div>
+      <nav>
+        <a class="chip" href="admin.html">لوحة الإدارة</a>
+      </nav>
+      <button class="cart-btn" id="cartBtn" aria-label="السلة">
+        <span>السلة</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="filters">
+      <div class="filters-inner">
+        <div class="categories" id="categories">
+          <button data-cat="الكل" class="chip active">الكل</button>
+        </div>
+        <div class="sort">
+          <label for="sortSelect">ترتيب:</label>
+          <select id="sortSelect">
+            <option value="default">الافتراضي</option>
+            <option value="price_asc">السعر: من الأقل للأعلى</option>
+            <option value="price_desc">السعر: من الأعلى للأقل</option>
+            <option value="name_asc">الاسم: أ-ي</option>
+            <option value="name_desc">الاسم: ي-أ</option>
+          </select>
+        </div>
+      </div>
+      <div id="subcats" class="subcats" aria-live="polite"></div>
+    </section>
+
+    <section id="products" class="grid"></section>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <h2>سلة المشتريات</h2>
+      <button id="closeCart" aria-label="إغلاق">✖</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <div class="totals">
+        <div>الإجمالي: <strong id="cartTotal">0</strong> <span id="currencyLabel">EGP</span></div>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">إرسال الطلب</button>
+      <p class="muted small">سيتم حفظ الطلب في لوحة الإدارة.</p>
+      <p id="checkoutMsg" class="small"></p>
+    </div>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <dialog id="checkoutDialog" class="checkout-dialog">
+    <form id="checkoutForm" method="dialog">
+      <h3>بيانات التوصيل</h3>
+      <label>الاسم الكامل
+        <input required id="custName" type="text" placeholder="مثال: أحمد محمد" />
+      </label>
+      <label>الهاتف
+        <input required id="custPhone" type="tel" placeholder="مثال: 010..." />
+      </label>
+      <label>العنوان
+        <textarea required id="custAddress" rows="3" placeholder="المدينة، الشارع، أقرب معلم..."></textarea>
+      </label>
+      <label>ملاحظات (اختياري)
+        <textarea id="custNote" rows="2" placeholder="لون/مقاس..."></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="cancelCheckout" class="ghost">إلغاء</button>
+        <button type="submit" class="primary">حفظ الطلب</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p id="copyright"></p>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script src="config.js"></script>
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
