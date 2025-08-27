@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الإدارة</title>
+  <link href="styles.css" rel="stylesheet" />
+  <style>
+    .login, .admin { max-width: 900px; margin: 1rem auto; padding: 1rem; background: #0a1020; color: #e5e7eb; border: 1px solid #1f253b; border-radius: 12px; }
+    input { width: 100%; padding: .6rem .8rem; border-radius: 10px; border: 1px solid #24304d; background: #0c142a; color: #e5e7eb; margin:.3rem 0; }
+    button { padding:.6rem .9rem; border-radius:10px; border:0; cursor:pointer; }
+    .primary { background:#22c55e; color:#000; }
+    table { width:100%; border-collapse: collapse; margin-top:1rem; }
+    th, td { border:1px solid #24304d; padding:.5rem; text-align:right; }
+    .muted{color:#9ca3af}
+  </style>
+</head>
+<body>
+  <div class="login" id="loginBox">
+    <h2>تسجيل الدخول</h2>
+    <p class="muted">سجّل دخولك لعرض الطلبات.</p>
+    <input id="email" type="email" placeholder="الإيميل" />
+    <input id="password" type="password" placeholder="كلمة المرور" />
+    <button id="loginBtn" class="primary">دخول</button>
+    <p id="loginMsg" class="muted"></p>
+  </div>
+
+  <div class="admin" id="adminBox" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h2>الطلبات</h2>
+      <button id="logoutBtn">خروج</button>
+    </div>
+    <table id="ordersTable">
+      <thead>
+        <tr>
+          <th>الوقت</th>
+          <th>العميل</th>
+          <th>الهاتف</th>
+          <th>العنوان</th>
+          <th>ملاحظات</th>
+          <th>الإجمالي</th>
+          <th>تفاصيل السلة</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script src="config.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const loginBox = document.getElementById('loginBox');
+    const adminBox = document.getElementById('adminBox');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const loginMsg = document.getElementById('loginMsg');
+    const tbody = document.querySelector('#ordersTable tbody');
+
+    loginBtn.onclick = async () => {
+      loginMsg.textContent = '';
+      try { await auth.signInWithEmailAndPassword(email.value, password.value); }
+      catch (e) { loginMsg.textContent = e.message; }
+    };
+    logoutBtn.onclick = async () => { await auth.signOut(); };
+
+    auth.onAuthStateChanged(user => {
+      if (user) { loginBox.style.display = 'none'; adminBox.style.display = 'block'; listenOrders(); }
+      else { loginBox.style.display = 'block'; adminBox.style.display = 'none'; tbody.innerHTML = ''; }
+    });
+
+    function listenOrders() {
+      db.collection('orders').orderBy('createdAt','desc').onSnapshot(snap => {
+        tbody.innerHTML = '';
+        snap.forEach(doc => {
+          const o = doc.data();
+          const tr = document.createElement('tr');
+          const items = (o.items||[]).map(it => `${it.name} × ${it.qty} = ${it.total}`).join(' | ');
+          tr.innerHTML = `
+            <td>${o.createdAt?.toDate ? o.createdAt.toDate().toLocaleString('ar-EG') : ''}</td>
+            <td>${o.customer?.name || ''}</td>
+            <td>${o.customer?.phone || ''}</td>
+            <td>${o.customer?.address || ''}</td>
+            <td>${o.customer?.note || ''}</td>
+            <td>${o.total || 0}</td>
+            <td>${items}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
